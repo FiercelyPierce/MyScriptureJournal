@@ -1,0 +1,75 @@
+﻿@page "{searchString?}"
+@model MyScriptureJournal.Pages.Scriptures.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+<form>
+    <p>
+        <select asp-for="ScriptureNote" asp-items="Model.Notes">
+            <option value="">All</option>
+        </select>
+        Book: <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+<table class="table bg-light">
+    <thead>
+        <tr class="table-header">
+            <th>
+                <a asp-route-sortOrder="@(Model.SortOrder == "book_asc" ? "book_desc" : "book_asc")">
+                    @Html.DisplayNameFor(model => model.Scripture[0].Book)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Scripture[0].Chapter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Scripture[0].Verse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Scripture[0].Note)
+            </th>
+            <th>
+                <a asp-route-sortOrder="@(Model.SortOrder == "date_asc" ? "date_desc" : "date_asc")">
+                    @Html.DisplayNameFor(model => model.Scripture[0].Date)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Scripture) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Chapter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Verse)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td class="modify-links">
+                <a class="btn-secondary" asp-page="./Edit" asp-route-id="@item.ID">Edit</a>
+                <a class="btn-primary" asp-page="./Details" asp-route-id="@item.ID">Details</a>
+                <a class="btn-danger" asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
